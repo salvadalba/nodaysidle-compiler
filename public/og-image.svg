@@ -1,0 +1,60 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+
+  <!-- Terminal window -->
+  <rect x="100" y="80" width="1000" height="470" rx="12" fill="#12121a" stroke="#2a2a3a" stroke-width="2"/>
+
+  <!-- Terminal header -->
+  <rect x="100" y="80" width="1000" height="40" rx="12" fill="#1a1a24"/>
+  <rect x="100" y="108" width="1000" height="12" fill="#1a1a24"/>
+
+  <!-- Traffic lights -->
+  <circle cx="130" cy="100" r="7" fill="#ff5f56"/>
+  <circle cx="154" cy="100" r="7" fill="#ffbd2e"/>
+  <circle cx="178" cy="100" r="7" fill="#27c93f"/>
+
+  <!-- Terminal title -->
+  <text x="600" y="106" font-family="monospace" font-size="14" fill="#6a6a7a" text-anchor="middle">THE_ARCHITECT_LOG</text>
+
+  <!-- Code lines -->
+  <text x="140" y="170" font-family="monospace" font-size="20" fill="#ff79c6">const</text>
+  <text x="210" y="170" font-family="monospace" font-size="20" fill="#bd93f9">portfolio</text>
+  <text x="340" y="170" font-family="monospace" font-size="20" fill="#c8c8d8">=</text>
+  <text x="365" y="170" font-family="monospace" font-size="20" fill="#c8c8d8">{</text>
+
+  <text x="160" y="210" font-family="monospace" font-size="20" fill="#50fa7b">title</text>
+  <text x="230" y="210" font-family="monospace" font-size="20" fill="#c8c8d8">:</text>
+  <text x="250" y="210" font-family="monospace" font-size="20" fill="#f1fa8c">"THE_ARCHITECT_LOG"</text>
+  <text x="510" y="210" font-family="monospace" font-size="20" fill="#c8c8d8">,</text>
+
+  <text x="160" y="250" font-family="monospace" font-size="20" fill="#50fa7b">type</text>
+  <text x="220" y="250" font-family="monospace" font-size="20" fill="#c8c8d8">:</text>
+  <text x="240" y="250" font-family="monospace" font-size="20" fill="#f1fa8c">"interactive portfolio"</text>
+  <text x="530" y="250" font-family="monospace" font-size="20" fill="#c8c8d8">,</text>
+
+  <text x="160" y="290" font-family="monospace" font-size="20" fill="#50fa7b">features</text>
+  <text x="280" y="290" font-family="monospace" font-size="20" fill="#c8c8d8">: [</text>
+
+  <text x="180" y="330" font-family="monospace" font-size="18" fill="#f1fa8c">"scroll-synced visuals"</text>
+  <text x="445" y="330" font-family="monospace" font-size="18" fill="#c8c8d8">,</text>
+
+  <text x="180" y="365" font-family="monospace" font-size="18" fill="#f1fa8c">"typing animations"</text>
+  <text x="410" y="365" font-family="monospace" font-size="18" fill="#c8c8d8">,</text>
+
+  <text x="180" y="400" font-family="monospace" font-size="18" fill="#f1fa8c">"terminal aesthetic"</text>
+
+  <text x="160" y="435" font-family="monospace" font-size="20" fill="#c8c8d8">]</text>
+
+  <text x="140" y="475" font-family="monospace" font-size="20" fill="#c8c8d8">};</text>
+
+  <!-- Cursor -->
+  <rect x="165" y="490" width="12" height="24" fill="#00ff88">
+    <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Accent line -->
+  <rect x="100" y="570" width="1000" height="2" fill="#00ff88" opacity="0.5"/>
+
+  <!-- Tagline -->
+  <text x="600" y="600" font-family="sans-serif" font-size="18" fill="#6a6a7a" text-anchor="middle">Code becomes narrative. Scroll becomes story.</text>
+</svg>
