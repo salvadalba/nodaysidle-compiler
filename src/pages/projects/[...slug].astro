@@ -30,12 +30,14 @@ const {
   keywords,
   startDate,
   endDate,
+  ogImage,
 } = project.data;
 ---
 
 <Layout
   title={seoTitle || title}
   description={seoDescription || description}
+  image={ogImage}
   keywords={keywords}
   type="article"
   publishedTime={startDate}

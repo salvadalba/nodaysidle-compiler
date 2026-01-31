@@ -1,0 +1,58 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+
+  <!-- Terminal window -->
+  <rect x="100" y="80" width="1000" height="470" rx="12" fill="#12121a" stroke="#2a2a3a" stroke-width="2"/>
+
+  <!-- Terminal header -->
+  <rect x="100" y="80" width="1000" height="40" rx="12" fill="#1a1a24"/>
+  <rect x="100" y="108" width="1000" height="12" fill="#1a1a24"/>
+
+  <!-- Traffic lights -->
+  <circle cx="130" cy="100" r="7" fill="#ff5f56"/>
+  <circle cx="154" cy="100" r="7" fill="#ffbd2e"/>
+  <circle cx="178" cy="100" r="7" fill="#27c93f"/>
+
+  <!-- Terminal title -->
+  <text x="600" y="106" font-family="monospace" font-size="14" fill="#6a6a7a" text-anchor="middle">memory-keeper.swift</text>
+
+  <!-- Project title -->
+  <text x="140" y="170" font-family="monospace" font-size="28" fill="#00ff88">MEMORY KEEPER</text>
+
+  <!-- Code lines -->
+  <text x="140" y="220" font-family="monospace" font-size="18" fill="#6272a4">// Preserve what matters most</text>
+
+  <text x="140" y="270" font-family="monospace" font-size="20" fill="#ff79c6">struct</text>
+  <text x="220" y="270" font-family="monospace" font-size="20" fill="#8be9fd">Memory</text>
+  <text x="320" y="270" font-family="monospace" font-size="20" fill="#c8c8d8">{</text>
+
+  <text x="160" y="310" font-family="monospace" font-size="18" fill="#ff79c6">let</text>
+  <text x="200" y="310" font-family="monospace" font-size="18" fill="#bd93f9">moment</text>
+  <text x="290" y="310" font-family="monospace" font-size="18" fill="#c8c8d8">:</text>
+  <text x="310" y="310" font-family="monospace" font-size="18" fill="#8be9fd">Date</text>
+
+  <text x="160" y="350" font-family="monospace" font-size="18" fill="#ff79c6">let</text>
+  <text x="200" y="350" font-family="monospace" font-size="18" fill="#bd93f9">feeling</text>
+  <text x="290" y="350" font-family="monospace" font-size="18" fill="#c8c8d8">:</text>
+  <text x="310" y="350" font-family="monospace" font-size="18" fill="#8be9fd">Emotion</text>
+
+  <text x="160" y="390" font-family="monospace" font-size="18" fill="#ff79c6">var</text>
+  <text x="200" y="390" font-family="monospace" font-size="18" fill="#bd93f9">preserved</text>
+  <text x="320" y="390" font-family="monospace" font-size="18" fill="#c8c8d8">:</text>
+  <text x="340" y="390" font-family="monospace" font-size="18" fill="#8be9fd">Bool</text>
+  <text x="400" y="390" font-family="monospace" font-size="18" fill="#c8c8d8">=</text>
+  <text x="420" y="390" font-family="monospace" font-size="18" fill="#ff79c6">true</text>
+
+  <text x="140" y="430" font-family="monospace" font-size="20" fill="#c8c8d8">}</text>
+
+  <!-- Cursor -->
+  <rect x="160" y="450" width="12" height="24" fill="#00ff88">
+    <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Accent line -->
+  <rect x="100" y="570" width="1000" height="2" fill="#00ff88" opacity="0.5"/>
+
+  <!-- Tagline -->
+  <text x="600" y="600" font-family="sans-serif" font-size="18" fill="#6a6a7a" text-anchor="middle">A native iOS journal for life's precious moments</text>
+</svg>

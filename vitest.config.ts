@@ -15,8 +15,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,ts}', 'tests/**/*.{test,spec}.{js,ts}'],
-    // Exclude Svelte component tests for now - they need browser mode
-    exclude: ['**/TypingAnimation.test.ts', 'node_modules/**'],
+    // Exclude Svelte component tests and E2E tests
+    exclude: ['**/TypingAnimation.test.ts', 'node_modules/**', 'tests/e2e/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

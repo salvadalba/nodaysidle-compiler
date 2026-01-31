@@ -55,10 +55,7 @@ const projectsCollection = defineCollection({
       src: z.string(),
       alt: z.string(),
     }).optional(),
-    ogImage: z.object({
-      src: z.string(),
-      alt: z.string(),
-    }).optional(),
+    ogImage: z.string().optional(),
 
     // External links
     links: z.object({
