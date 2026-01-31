@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const featuredProjects = projects.filter(p => p.data.featured).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout
+  title="THE_ARCHITECT_LOG"
+  description="A portfolio experience demonstrating the craft of building software by showing code transforming into visual products in real-time"
+>
+  <div class="min-h-screen flex flex-col items-center justify-center px-8">
+    <header class="text-center max-w-2xl mx-auto">
+      <h1 class="text-5xl font-bold mb-4 font-mono text-[var(--color-terminal-green)]">
+        THE_ARCHITECT_LOG
+      </h1>
+      <p class="text-xl text-[var(--color-text-secondary)] mb-8">
+        Where code transforms into craft
+      </p>
+      <div class="flex items-center justify-center gap-2 text-[var(--color-text-muted)] font-mono text-sm">
+        <span class="text-[var(--color-terminal-green)]">$</span>
+        <span>scroll to compile</span>
+        <span class="w-2 h-5 bg-[var(--color-terminal-green)] animate-cursor-blink"></span>
+      </div>
+    </header>
+
+    {featuredProjects.length > 0 && (
+      <nav class="mt-16" aria-label="Featured projects">
+        <ul class="flex flex-col gap-4">
+          {featuredProjects.map((project) => (
+            <li>
+              <a
+                href={`/projects/${project.id.replace(/\.mdx?$/, '')}`}
+                class="group block px-6 py-4 border border-[var(--color-border-primary)] rounded-[var(--radius-md)] hover:border-[var(--color-terminal-green)] transition-colors duration-[var(--duration-normal)]"
+              >
+                <h2 class="text-lg font-medium text-[var(--color-text-primary)] group-hover:text-[var(--color-terminal-green)] transition-colors">
+                  {project.data.title}
+                </h2>
+                <p class="text-sm text-[var(--color-text-muted)] mt-1">
+                  {project.data.description}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+  </div>
+</Layout>

@@ -1,0 +1,97 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['split-screen', className]}>
+  <!-- Left Panel: Scrollable Narrative Content -->
+  <div class="split-screen__left" role="region" aria-label="Project narrative">
+    <slot name="left" />
+  </div>
+
+  <!-- Right Panel: Sticky Visual Display -->
+  <div class="split-screen__right" role="region" aria-label="Visual preview">
+    <div class="split-screen__visual-container">
+      <slot name="right" />
+    </div>
+  </div>
+</div>
+
+<style>
+  .split-screen {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Desktop: Two-column split-screen layout */
+  @media (min-width: 768px) {
+    .split-screen {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Left Panel - Scrollable */
+  .split-screen__left {
+    position: relative;
+    z-index: var(--z-base);
+    padding: var(--spacing-panel-padding);
+    overflow-y: auto;
+  }
+
+  @media (min-width: 768px) {
+    .split-screen__left {
+      min-height: 100vh;
+      padding: var(--spacing-section) var(--spacing-panel-padding);
+    }
+  }
+
+  /* Right Panel - Sticky */
+  .split-screen__right {
+    position: relative;
+    background-color: var(--color-bg-panel);
+    border-left: 1px solid var(--color-border-secondary);
+    z-index: var(--z-panel);
+  }
+
+  @media (min-width: 768px) {
+    .split-screen__right {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+  }
+
+  /* Visual Container - Terminal Style */
+  .split-screen__visual-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-panel-padding);
+  }
+
+  @media (min-width: 768px) {
+    .split-screen__visual-container {
+      padding: var(--spacing-section) var(--spacing-panel-padding);
+    }
+  }
+
+  /* Mobile: Stacked layout adjustments */
+  @media (max-width: 767px) {
+    .split-screen__left {
+      order: 1;
+    }
+
+    .split-screen__right {
+      order: 2;
+      border-left: none;
+      border-top: 1px solid var(--color-border-secondary);
+      min-height: 50vh;
+    }
+  }
+</style>

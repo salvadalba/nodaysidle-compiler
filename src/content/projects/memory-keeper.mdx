@@ -1,0 +1,128 @@
+---
+title: "MemoryKeeper"
+description: "A privacy-focused photo organization app that uses on-device ML to surface forgotten memories without cloud storage"
+category: "mobile-app"
+status: "completed"
+featured: true
+order: 2
+startDate: 2024-03-01
+endDate: 2024-08-15
+technologies:
+  - "Swift"
+  - "SwiftUI"
+  - "Core ML"
+  - "Vision Framework"
+  - "PhotoKit"
+links:
+  github: "https://github.com/example/memory-keeper"
+sections:
+  - id: "problem"
+    title: "The Privacy Problem"
+    content: "Most photo apps sync everything to the cloud. MemoryKeeper takes a different approach - all processing happens on your device, keeping your memories truly private."
+    codeBlock:
+      code: |
+        // Privacy-first architecture
+        struct PhotoProcessor {
+            private let mlModel: VNCoreMLModel
+
+            func analyzeLocally(_ image: UIImage) async -> [PhotoMetadata] {
+                // All ML inference runs on-device
+                let request = VNCoreMLRequest(model: mlModel)
+                return try await processRequest(request, for: image)
+            }
+        }
+      language: "swift"
+      filename: "PhotoProcessor.swift"
+    visual:
+      type: "code"
+      content: "struct PhotoProcessor { private let mlModel: VNCoreMLModel }"
+      language: "swift"
+  - id: "ml-pipeline"
+    title: "On-Device Intelligence"
+    content: "Core ML powers intelligent photo categorization, face recognition, and scene detection - all without sending a single byte to external servers."
+    codeBlock:
+      code: |
+        // Scene classification with Core ML
+        func classifyScene(in image: CIImage) -> SceneCategory {
+            let model = try? SceneClassifier(configuration: .init())
+
+            guard let output = try? model?.prediction(image: image) else {
+                return .unknown
+            }
+
+            return SceneCategory(rawValue: output.classLabel) ?? .unknown
+        }
+      language: "swift"
+      filename: "SceneClassifier.swift"
+    visual:
+      type: "diagram"
+      content: "Core ML Scene Classification Pipeline"
+    revealElements:
+      - id: "ml-model"
+        animation: "scale"
+        delay: 100
+      - id: "classification"
+        animation: "slide-up"
+        delay: 300
+  - id: "ui-design"
+    title: "SwiftUI Experience"
+    content: "A native SwiftUI interface that feels right at home on iOS, with smooth animations and intuitive gestures for browsing your photo library."
+    codeBlock:
+      code: |
+        struct MemoryGridView: View {
+            @StateObject private var viewModel: MemoryViewModel
+
+            var body: some View {
+                LazyVGrid(columns: columns, spacing: 2) {
+                    ForEach(viewModel.memories) { memory in
+                        MemoryCard(memory: memory)
+                            .onTapGesture { viewModel.select(memory) }
+                    }
+                }
+                .animation(.spring(), value: viewModel.memories)
+            }
+        }
+      language: "swift"
+      filename: "MemoryGridView.swift"
+    visual:
+      type: "ui"
+      content: "Photo Grid with Spring Animations"
+  - id: "memories"
+    title: "Surfacing Memories"
+    content: "The app intelligently surfaces photos from years past, creating 'On This Day' collections that bring back forgotten moments."
+    codeBlock:
+      code: |
+        // Find memories from this day in history
+        func fetchMemories(for date: Date) async -> [Memory] {
+            let calendar = Calendar.current
+            let yearsBack = (1...10).map { years in
+                calendar.date(byAdding: .year, value: -years, to: date)!
+            }
+
+            return await withTaskGroup(of: [Memory].self) { group in
+                for targetDate in yearsBack {
+                    group.addTask {
+                        await self.photosFrom(date: targetDate)
+                    }
+                }
+                return await group.reduce([], +)
+            }
+        }
+      language: "swift"
+      filename: "MemoryService.swift"
+    visual:
+      type: "terminal"
+      content: "Fetching memories from 2023, 2022, 2021..."
+seoTitle: "MemoryKeeper - Private Photo Memories App"
+seoDescription: "A privacy-focused photo app using on-device ML to surface forgotten memories without cloud storage"
+keywords:
+  - "ios"
+  - "swiftui"
+  - "core-ml"
+  - "privacy"
+  - "photos"
+---
+
+# MemoryKeeper
+
+Your memories, on your device, under your control.

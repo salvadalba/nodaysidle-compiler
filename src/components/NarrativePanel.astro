@@ -1,0 +1,145 @@
+---
+import type { Section } from '../content/config';
+
+interface Props {
+  sections: Section[];
+  projectTitle: string;
+  class?: string;
+}
+
+const { sections, projectTitle, class: className = '' } = Astro.props;
+---
+
+<article class:list={['narrative-panel', className]}>
+  <header class="narrative-panel__header">
+    <h1 class="narrative-panel__title">{projectTitle}</h1>
+  </header>
+
+  <div class="narrative-panel__content">
+    {sections.map((section, index) => (
+      <section
+        class="narrative-section"
+        data-section-id={section.id}
+        data-section-index={index}
+        id={`section-${section.id}`}
+      >
+        <h2 class="narrative-section__title">
+          <span class="narrative-section__number">{String(index + 1).padStart(2, '0')}</span>
+          {section.title}
+        </h2>
+
+        <div class="narrative-section__body">
+          <p class="narrative-section__content">{section.content}</p>
+
+          {section.codeBlock && (
+            <div class="narrative-section__code">
+              {section.codeBlock.filename && (
+                <div class="code-block__header">
+                  <span class="code-block__filename">{section.codeBlock.filename}</span>
+                </div>
+              )}
+              <pre class="code-block__pre"><code class={`language-${section.codeBlock.language}`}>{section.codeBlock.code}</code></pre>
+            </div>
+          )}
+        </div>
+      </section>
+    ))}
+  </div>
+</article>
+
+<style>
+  .narrative-panel {
+    max-width: var(--spacing-content-max);
+    margin: 0 auto;
+  }
+
+  .narrative-panel__header {
+    margin-bottom: var(--spacing-section);
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border-secondary);
+  }
+
+  .narrative-panel__title {
+    font-family: var(--font-mono);
+    font-size: var(--text-3xl);
+    font-weight: 600;
+    color: var(--color-terminal-green);
+    letter-spacing: -0.02em;
+  }
+
+  .narrative-panel__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-section);
+  }
+
+  /* Section Styles */
+  .narrative-section {
+    scroll-margin-top: 2rem;
+  }
+
+  .narrative-section__title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 1.5rem;
+  }
+
+  .narrative-section__number {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-terminal-green);
+    opacity: 0.7;
+  }
+
+  .narrative-section__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .narrative-section__content {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  /* Code Block Styles */
+  .narrative-section__code {
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-terminal);
+    overflow: hidden;
+    background-color: var(--color-bg-secondary);
+  }
+
+  .code-block__header {
+    padding: 0.5rem 1rem;
+    background-color: var(--color-bg-tertiary);
+    border-bottom: 1px solid var(--color-border-secondary);
+  }
+
+  .code-block__filename {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .code-block__pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-code);
+    color: var(--color-text-code);
+  }
+
+  .code-block__pre code {
+    display: block;
+    white-space: pre;
+  }
+</style>

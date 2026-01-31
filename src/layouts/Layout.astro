@@ -1,0 +1,114 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+import SEOMeta from '../components/SEOMeta.astro';
+import Navigation from '../components/Navigation.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  keywords?: string[];
+  noindex?: boolean;
+  showNav?: boolean;
+}
+
+const {
+  title = 'THE_ARCHITECT_LOG',
+  description = 'A portfolio experience demonstrating the craft of building software',
+  image,
+  imageAlt,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  keywords = [],
+  noindex = false,
+  showNav = true,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
+    <SEOMeta
+      title={title}
+      description={description}
+      image={image}
+      imageAlt={imageAlt}
+      type={type}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      keywords={keywords}
+      noindex={noindex}
+    />
+
+    <!-- Preconnect to font origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Font loading with display swap for performance -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#0a0a0f" />
+
+    <!-- Prevent color-scheme flashing -->
+    <meta name="color-scheme" content="dark" />
+
+    <!-- View Transitions for smooth navigation -->
+    <ViewTransitions />
+
+    <slot name="head" />
+  </head>
+  <body
+    class="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] antialiased"
+  >
+    <!-- Skip to main content for accessibility -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--color-terminal-green)] focus:text-[var(--color-bg-primary)] focus:rounded-[var(--radius-md)] focus:font-medium"
+    >
+      Skip to main content
+    </a>
+
+    {showNav && <Navigation />}
+
+    <slot name="header" />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <slot name="footer" />
+  </body>
+</html>
+
+<style is:global>
+  /* Ensure full height for split-screen layouts */
+  html,
+  body {
+    height: 100%;
+  }
+
+  /* Smooth scrolling respects user preferences */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import SplitScreenLayout from '../../components/SplitScreenLayout.astro';
+import NarrativePanel from '../../components/NarrativePanel.astro';
+import VisualPanel from '../../components/VisualPanel.astro';
+import ScrollSyncController from '../../components/ScrollSyncController.svelte';
+import VisualGeneratorPanel from '../../components/VisualGeneratorPanel.svelte';
+import AriaLiveRegion from '../../components/AriaLiveRegion.svelte';
+import KeyboardNavigation from '../../components/KeyboardNavigation.svelte';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id.replace(/\.mdx?$/, '') },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+const {
+  title,
+  description,
+  sections,
+  technologies,
+  seoTitle,
+  seoDescription,
+  keywords,
+  startDate,
+  endDate,
+} = project.data;
+---
+
+<Layout
+  title={seoTitle || title}
+  description={seoDescription || description}
+  keywords={keywords}
+  type="article"
+  publishedTime={startDate}
+  modifiedTime={endDate}
+>
+  <!-- Accessibility Components -->
+  <AriaLiveRegion client:only="svelte" sections={sections} />
+  <KeyboardNavigation client:only="svelte" sectionSelector="[data-section-id]" />
+
+  <!-- Scroll Sync Controller - client-only to avoid SSR -->
+  <ScrollSyncController
+    client:only="svelte"
+    containerSelector=".narrative-panel__content"
+    sectionSelector="[data-section-id]"
+  />
+
+  <SplitScreenLayout>
+    <NarrativePanel
+      slot="left"
+      sections={sections}
+      projectTitle={title}
+    />
+
+    <VisualPanel slot="right" title={title.toLowerCase().replace(/\s+/g, '_')}>
+      <!-- Visual Generator Panel - client-only to avoid SSR -->
+      <VisualGeneratorPanel
+        client:only="svelte"
+        sections={sections}
+      />
+    </VisualPanel>
+  </SplitScreenLayout>
+</Layout>

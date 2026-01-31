@@ -1,0 +1,104 @@
+---
+title: "Synapse Notes"
+description: "A neural-inspired note-taking app that connects ideas through intelligent linking and visual knowledge graphs"
+category: "web-app"
+status: "completed"
+featured: true
+order: 1
+startDate: 2024-01-15
+endDate: 2024-06-20
+technologies:
+  - "TypeScript"
+  - "React"
+  - "TailwindCSS"
+  - "Supabase"
+  - "D3.js"
+links:
+  github: "https://github.com/example/synapse-notes"
+  live: "https://synapse-notes.app"
+sections:
+  - id: "intro"
+    title: "The Vision"
+    content: "Every great app starts with a problem worth solving. Synapse Notes emerged from the frustration of losing connections between ideas scattered across countless documents."
+    codeBlock:
+      code: |
+        // The spark that started it all
+        interface Note {
+          id: string;
+          content: string;
+          connections: string[];
+          createdAt: Date;
+        }
+      language: "typescript"
+      filename: "types/note.ts"
+    visual:
+      type: "code"
+      content: "interface Note { id: string; content: string; connections: string[]; }"
+      language: "typescript"
+  - id: "architecture"
+    title: "Building the Foundation"
+    content: "The architecture needed to support bidirectional linking, real-time sync, and a responsive graph visualization. React provided the UI layer while Supabase handled the real-time data layer."
+    codeBlock:
+      code: |
+        // Real-time subscription for note updates
+        const { data, error } = await supabase
+          .from('notes')
+          .select('*, connections(*)')
+          .eq('user_id', userId)
+          .order('updated_at', { ascending: false });
+      language: "typescript"
+      filename: "lib/notes.ts"
+    visual:
+      type: "ui"
+      content: "NotesList Component with connected nodes"
+  - id: "graph-viz"
+    title: "Visualizing Connections"
+    content: "D3.js brings the knowledge graph to life, rendering connections as an interactive force-directed layout where ideas orbit around central concepts."
+    codeBlock:
+      code: |
+        // Force simulation for the knowledge graph
+        const simulation = d3.forceSimulation(nodes)
+          .force('link', d3.forceLink(links).id(d => d.id))
+          .force('charge', d3.forceManyBody().strength(-400))
+          .force('center', d3.forceCenter(width / 2, height / 2));
+      language: "typescript"
+      filename: "components/KnowledgeGraph.tsx"
+    visual:
+      type: "diagram"
+      content: "Interactive knowledge graph visualization"
+    revealElements:
+      - id: "graph-nodes"
+        animation: "scale"
+        delay: 200
+      - id: "graph-edges"
+        animation: "fade"
+        delay: 400
+  - id: "polish"
+    title: "The Final Touch"
+    content: "Performance optimization and accessibility ensured Synapse Notes could handle thousands of connected notes while remaining usable for everyone."
+    codeBlock:
+      code: |
+        // Virtualized list for performance
+        <VirtualizedNoteList
+          notes={filteredNotes}
+          rowHeight={72}
+          overscan={5}
+          onNoteClick={handleNoteSelect}
+        />
+      language: "tsx"
+      filename: "components/NoteList.tsx"
+    visual:
+      type: "ui"
+      content: "Polished UI with smooth animations"
+seoTitle: "Synapse Notes - Neural Note-Taking App"
+seoDescription: "A note-taking app that connects ideas through intelligent linking and visual knowledge graphs, built with React and D3.js"
+keywords:
+  - "note-taking"
+  - "knowledge-graph"
+  - "react"
+  - "d3js"
+---
+
+# Synapse Notes
+
+Building a second brain, one connection at a time.
