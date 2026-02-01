@@ -34,5 +34,8 @@ test-results/
 # VS Code
 .vscode/
 
+# Claude Code
+.claude/
+
 # TypeScript
 *.tsbuildinfo
