@@ -11,15 +11,17 @@
   let observer: IntersectionObserver | null = null;
   let lastScrollY = 0;
   let isBrowser = false;
+  let updateTimeout: ReturnType<typeof setTimeout> | null = null;
 
   function updateSectionInfo() {
     if (!isBrowser || !container) return;
 
     const sectionElements = container.querySelectorAll(sectionSelector);
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
     sections = Array.from(sectionElements).map((el, index) => {
       const element = el as HTMLElement;
       const rect = element.getBoundingClientRect();
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
       return {
         id: element.dataset.sectionId || `section-${index}`,
@@ -29,6 +31,9 @@
         height: rect.height,
       };
     });
+
+    // Sort sections by their vertical position to ensure correct order
+    sections.sort((a, b) => a.top - b.top);
   }
 
   function calculateProgress() {
@@ -36,7 +41,8 @@
 
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     const windowHeight = window.innerHeight;
-    const viewportCenter = scrollTop + windowHeight * 0.4;
+    // Use a point 30% from the top of the viewport for better section detection
+    const viewportTrigger = scrollTop + windowHeight * 0.3;
 
     const direction = scrollTop > lastScrollY ? 'down' : scrollTop < lastScrollY ? 'up' : null;
     lastScrollY = scrollTop;
@@ -44,20 +50,22 @@
     let currentSection: SectionInfo | null = null;
     let sectionProgress = 0;
 
+    // Find the section that contains the trigger point
     for (let i = 0; i < sections.length; i++) {
       const section = sections[i];
       const sectionTop = section.top;
       const sectionBottom = sectionTop + section.height;
 
-      if (viewportCenter >= sectionTop && viewportCenter < sectionBottom) {
+      if (viewportTrigger >= sectionTop && viewportTrigger < sectionBottom) {
         currentSection = section;
-        sectionProgress = (viewportCenter - sectionTop) / section.height;
+        sectionProgress = (viewportTrigger - sectionTop) / section.height;
         break;
       }
     }
 
+    // Handle edge cases: before first section or after last section
     if (!currentSection && sections.length > 0) {
-      if (viewportCenter < sections[0].top) {
+      if (viewportTrigger < sections[0].top) {
         currentSection = sections[0];
         sectionProgress = 0;
       } else {
@@ -90,6 +98,16 @@
     calculateProgress();
   }
 
+  function scheduleUpdate() {
+    if (updateTimeout) {
+      clearTimeout(updateTimeout);
+    }
+    updateTimeout = setTimeout(() => {
+      updateSectionInfo();
+      calculateProgress();
+    }, 100);
+  }
+
   onMount(() => {
     isBrowser = true;
     container = document.querySelector(containerSelector);
@@ -99,30 +117,49 @@
       return;
     }
 
+    // Initial update
     updateSectionInfo();
     calculateProgress();
+
+    // Schedule additional updates to catch layout changes after fonts/images load
+    setTimeout(() => {
+      updateSectionInfo();
+      calculateProgress();
+    }, 100);
+
+    setTimeout(() => {
+      updateSectionInfo();
+      calculateProgress();
+    }, 500);
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
 
+    // Use IntersectionObserver to track when sections become visible
+    // and recalculate positions
     observer = new IntersectionObserver(
       (entries) => {
+        let needsUpdate = false;
         entries.forEach((entry) => {
-          const sectionId = (entry.target as HTMLElement).dataset.sectionId;
-          if (entry.isIntersecting && sectionId) {
-            // Section visibility tracked
+          if (entry.isIntersecting) {
+            needsUpdate = true;
           }
         });
+        if (needsUpdate) {
+          scheduleUpdate();
+        }
       },
       {
         threshold: [0, threshold, 0.5, 1],
-        rootMargin: '-10% 0px -10% 0px',
+        rootMargin: '0px 0px 0px 0px',
       }
     );
 
-    sections.forEach((section) => {
+    // Observe all section elements
+    const sectionElements = container.querySelectorAll(sectionSelector);
+    sectionElements.forEach((el) => {
       if (observer) {
-        observer.observe(section.element);
+        observer.observe(el);
       }
     });
   });
@@ -134,6 +171,10 @@
 
       if (observer) {
         observer.disconnect();
+      }
+
+      if (updateTimeout) {
+        clearTimeout(updateTimeout);
       }
     }
 
