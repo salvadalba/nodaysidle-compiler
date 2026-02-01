@@ -1,16 +1,7 @@
 import { defineConfig } from 'vitest/config';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
-  plugins: [
-    svelte({
-      hot: !process.env.VITEST,
-      compilerOptions: {
-        // Ensure we're in client mode for testing
-        hydratable: true,
-      },
-    }),
-  ],
+  plugins: [],
   test: {
     globals: true,
     environment: 'jsdom',
