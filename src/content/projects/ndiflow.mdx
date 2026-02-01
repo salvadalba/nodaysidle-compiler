@@ -1,0 +1,159 @@
+---
+title: "NDI Flow"
+description: "Privacy-first intelligent macOS file organizer that uses on-device ML to group files by semantic content, not filenames. Real-time monitoring with automatic semantic clustering."
+category: "mobile-app"
+status: "completed"
+featured: true
+order: 4
+startDate: 2024-02-15
+endDate: 2024-08-01
+technologies:
+  - "Swift"
+  - "SwiftUI"
+  - "Core ML"
+  - "Natural Language"
+  - "FSEvents"
+links:
+  github: "https://github.com/salvadalba/nodaysidle-ndiflow"
+seoTitle: "NDI Flow - Semantic File Organization"
+seoDescription: "Privacy-first macOS file organizer using on-device ML to group files by semantic content with real-time monitoring"
+ogImage: "/og-ndiflow.svg"
+keywords:
+  - "macOS"
+  - "Swift"
+  - "file management"
+  - "ML"
+  - "organization"
+sections:
+  - id: "chaos"
+    title: "Taming Digital Chaos"
+    content: "Your Downloads folder is a graveyard. Files named 'final_v2_FINAL.pdf' live next to 'IMG_4521.jpg'. NDI Flow doesn't care about filenames. It reads the content, understands the meaning, and organizes by what files actually contain."
+    codeBlock:
+      code: |
+        // Semantic file analysis
+        struct SemanticAnalyzer {
+            private let embedder: NLEmbedding
+            private let classifier: DocumentClassifier
+
+            func analyze(_ file: URL) async -> SemanticProfile {
+                let content = try await extractContent(file)
+                let embedding = embedder.vector(for: content)
+                let category = classifier.classify(embedding)
+
+                return SemanticProfile(
+                    embedding: embedding,
+                    category: category,
+                    topics: extractTopics(content),
+                    entities: extractEntities(content)
+                )
+            }
+        }
+      language: "swift"
+      filename: "Core/SemanticAnalyzer.swift"
+    visual:
+      type: "terminal"
+      content: "Analyzing 1,247 files... Building semantic clusters..."
+  - id: "clustering"
+    title: "Intelligent Clustering"
+    content: "Files automatically group into semantic clusters. Your machine learning papers cluster together, regardless of whether they're PDFs, screenshots, or markdown notes. Related receipts find each other. Project assets naturally organize."
+    codeBlock:
+      code: |
+        // Build semantic clusters
+        class ClusterEngine {
+            func buildClusters(_ profiles: [SemanticProfile]) -> [Cluster] {
+                let embeddings = profiles.map { $0.embedding }
+
+                // HDBSCAN for variable-density clustering
+                let clusters = HDBSCAN(
+                    minClusterSize: 3,
+                    minSamples: 2
+                ).fit(embeddings)
+
+                return clusters.map { indices in
+                    Cluster(
+                        files: indices.map { profiles[$0].file },
+                        centroid: computeCentroid(indices, embeddings),
+                        label: generateLabel(indices, profiles)
+                    )
+                }
+            }
+        }
+      language: "swift"
+      filename: "Clustering/ClusterEngine.swift"
+    visual:
+      type: "diagram"
+      content: "Semantic Clustering Visualization"
+    revealElements:
+      - id: "cluster-viz"
+        animation: "scale"
+        delay: 200
+  - id: "realtime"
+    title: "Always Watching"
+    content: "FSEvents monitors your filesystem in real-time. New file appears? Instantly analyzed and placed in the right cluster. Move a file manually? NDI Flow learns your preferences and adjusts future suggestions."
+    codeBlock:
+      code: |
+        // Real-time file monitoring
+        class FileMonitor {
+            private let stream: FSEventStream
+
+            func startMonitoring(paths: [String]) {
+                stream = FSEventStream(
+                    paths: paths,
+                    latency: 0.5,
+                    flags: [.fileEvents, .watchRoot]
+                ) { events in
+                    Task {
+                        for event in events {
+                            await self.processEvent(event)
+                        }
+                    }
+                }
+                stream.start()
+            }
+
+            private func processEvent(_ event: FSEvent) async {
+                guard event.isFile else { return }
+                let profile = await analyzer.analyze(event.path)
+                await clusterManager.integrate(profile)
+            }
+        }
+      language: "swift"
+      filename: "Monitor/FileMonitor.swift"
+    visual:
+      type: "code"
+      content: "stream.start() // Always watching"
+      language: "swift"
+  - id: "privacy"
+    title: "Your Data, Your Mac"
+    content: "Every byte of processing happens on your Mac. No cloud uploads, no external APIs, no telemetry. The semantic embeddings stay in a local SQLite database. Your file organization habits are nobody's business."
+    codeBlock:
+      code: |
+        // Privacy-first architecture
+        struct PrivacyGuarantee {
+            static let networkAccess = false
+            static let cloudSync = false
+            static let telemetry = false
+
+            static func verify() -> Bool {
+                // All ML models run locally
+                assert(MLConfig.executionTarget == .local)
+
+                // Database is local SQLite
+                assert(Database.location == .applicationSupport)
+
+                // No network entitlements
+                assert(!Bundle.main.hasNetworkEntitlement)
+
+                return true
+            }
+        }
+      language: "swift"
+      filename: "Privacy/PrivacyGuarantee.swift"
+    visual:
+      type: "terminal"
+      content: "Network access: DISABLED | All processing: LOCAL"
+---
+
+# NDI Flow
+
+Your files, semantically understood.

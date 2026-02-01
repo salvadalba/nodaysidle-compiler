@@ -1,0 +1,31 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+  <rect x="40" y="40" width="1120" height="550" rx="8" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="40" y="40" width="1120" height="40" fill="#1a1a2e"/>
+  <circle cx="70" cy="60" r="8" fill="#ff5f56"/>
+  <circle cx="100" cy="60" r="8" fill="#ffbd2e"/>
+  <circle cx="130" cy="60" r="8" fill="#27c93f"/>
+  <text x="600" y="65" fill="#6b6b8d" font-family="monospace" font-size="14" text-anchor="middle">SketchProcessor.swift</text>
+  <text x="100" y="160" fill="#6b6b8d" font-family="monospace" font-size="18">// Sketch to wireframe, instantly</text>
+  <text x="100" y="220" fill="#ff79c6" font-family="monospace" font-size="28">func</text>
+  <text x="200" y="220" fill="#50fa7b" font-family="monospace" font-size="28">transform</text>
+  <text x="400" y="220" fill="#c8c8d8" font-family="monospace" font-size="28">(_ sketch:</text>
+  <text x="620" y="220" fill="#8be9fd" font-family="monospace" font-size="28">PKDrawing</text>
+  <text x="820" y="220" fill="#c8c8d8" font-family="monospace" font-size="28">) -></text>
+  <text x="940" y="220" fill="#8be9fd" font-family="monospace" font-size="28">Wireframe</text>
+  <text x="140" y="280" fill="#ff79c6" font-family="monospace" font-size="24">let</text>
+  <text x="210" y="280" fill="#bd93f9" font-family="monospace" font-size="24">components</text>
+  <text x="420" y="280" fill="#c8c8d8" font-family="monospace" font-size="24">= await</text>
+  <text x="580" y="280" fill="#50fa7b" font-family="monospace" font-size="24">recognizeUI</text>
+  <text x="780" y="280" fill="#c8c8d8" font-family="monospace" font-size="24">(sketch)</text>
+  <text x="140" y="330" fill="#ff79c6" font-family="monospace" font-size="24">let</text>
+  <text x="210" y="330" fill="#bd93f9" font-family="monospace" font-size="24">tokens</text>
+  <text x="340" y="330" fill="#c8c8d8" font-family="monospace" font-size="24">= await</text>
+  <text x="500" y="330" fill="#50fa7b" font-family="monospace" font-size="24">StyleMirror</text>
+  <text x="700" y="330" fill="#c8c8d8" font-family="monospace" font-size="24">.extract(image)</text>
+  <text x="140" y="380" fill="#ff79c6" font-family="monospace" font-size="24">return</text>
+  <text x="260" y="380" fill="#50fa7b" font-family="monospace" font-size="24">layoutEngine</text>
+  <text x="480" y="380" fill="#c8c8d8" font-family="monospace" font-size="24">.arrange(components, tokens)</text>
+  <text x="100" y="520" fill="#50fa7b" font-family="monospace" font-size="48" font-weight="bold">NEURALCANVAS</text>
+  <text x="100" y="560" fill="#6b6b8d" font-family="monospace" font-size="20">Sketch to UI Wireframes | On-Device ML | THE_ARCHITECT_LOG</text>
+</svg>

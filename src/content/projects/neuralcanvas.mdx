@@ -1,0 +1,136 @@
+---
+title: "NeuralCanvas"
+description: "MacOS native design tool that transforms hand-drawn sketches into professional UI wireframes instantly, powered by on-device ML for total privacy"
+category: "mobile-app"
+status: "completed"
+featured: true
+order: 3
+startDate: 2024-04-01
+endDate: 2024-09-30
+technologies:
+  - "Swift"
+  - "SwiftUI"
+  - "Core ML"
+  - "Vision Framework"
+  - "PencilKit"
+links:
+  github: "https://github.com/salvadalba/nodaysidle-neuralcanvas"
+seoTitle: "NeuralCanvas - Sketch to UI Wireframes"
+seoDescription: "MacOS native design tool that transforms hand-drawn sketches into professional UI wireframes using on-device machine learning"
+ogImage: "/og-neuralcanvas.svg"
+keywords:
+  - "macOS"
+  - "Swift"
+  - "Core ML"
+  - "design"
+  - "wireframes"
+  - "UI"
+sections:
+  - id: "vision"
+    title: "From Napkin to Production"
+    content: "Designers sketch on paper, then recreate in Figma. NeuralCanvas eliminates that friction. Draw your UI idea, and watch it transform into clean, editable wireframes in real-time. All processing happens on your Mac - your designs never leave your device."
+    codeBlock:
+      code: |
+        // Transform sketches to wireframes
+        struct SketchProcessor {
+            private let recognitionModel: VNCoreMLModel
+            private let layoutEngine: LayoutEngine
+
+            func process(_ drawing: PKDrawing) async -> Wireframe {
+                let strokes = drawing.strokes
+                let recognized = await recognizeComponents(strokes)
+                return layoutEngine.arrange(recognized)
+            }
+        }
+      language: "swift"
+      filename: "Core/SketchProcessor.swift"
+    visual:
+      type: "diagram"
+      content: "Sketch Recognition Pipeline"
+  - id: "recognition"
+    title: "On-Device Intelligence"
+    content: "A custom Core ML model trained to recognize UI primitives: buttons, text fields, cards, navigation bars. The model runs entirely on Apple Silicon, achieving sub-100ms recognition even for complex sketches."
+    codeBlock:
+      code: |
+        // Component recognition with Core ML
+        func recognizeComponents(_ strokes: [PKStroke]) async -> [UIComponent] {
+            let model = try! UIComponentClassifier()
+
+            return await withTaskGroup(of: UIComponent?.self) { group in
+                for stroke in strokes.grouped() {
+                    group.addTask {
+                        let prediction = try? model.prediction(
+                            drawing: stroke.rasterized()
+                        )
+                        return prediction?.component
+                    }
+                }
+                return await group.compactMap { $0 }.collect()
+            }
+        }
+      language: "swift"
+      filename: "ML/ComponentRecognizer.swift"
+    visual:
+      type: "code"
+      content: "model.prediction(drawing: stroke.rasterized())"
+      language: "swift"
+    revealElements:
+      - id: "ml-inference"
+        animation: "scale"
+        delay: 150
+  - id: "style-mirror"
+    title: "Style Mirror"
+    content: "Drop any image - a screenshot, a design from Dribbble, your competitor's app - and NeuralCanvas extracts the design tokens. Colors, typography, spacing, border radii. Apply them to your wireframes instantly."
+    codeBlock:
+      code: |
+        // Extract design tokens from any image
+        struct StyleMirror {
+            func extractTokens(from image: NSImage) async -> DesignTokens {
+                let colors = await extractColorPalette(image)
+                let typography = await detectTypography(image)
+                let spacing = await analyzeSpacing(image)
+
+                return DesignTokens(
+                    primary: colors.dominant,
+                    secondary: colors.accent,
+                    fonts: typography,
+                    spacing: spacing.scale,
+                    radii: await detectBorderRadii(image)
+                )
+            }
+        }
+      language: "swift"
+      filename: "Features/StyleMirror.swift"
+    visual:
+      type: "ui"
+      content: "Design Token Extraction Interface"
+  - id: "export"
+    title: "Clean Vector Output"
+    content: "Export your wireframes as SVG, SwiftUI code, or React components. The generated code follows best practices - no magic numbers, proper component composition, accessibility labels included."
+    codeBlock:
+      code: |
+        // Generate production-ready SwiftUI
+        extension Wireframe {
+            func toSwiftUI() -> String {
+                let builder = SwiftUICodeBuilder()
+
+                for component in self.components {
+                    builder.add(component.swiftUIView)
+                    builder.addAccessibility(component.a11yLabel)
+                }
+
+                return builder
+                    .wrapInVStack(spacing: designTokens.spacing)
+                    .formatted()
+            }
+        }
+      language: "swift"
+      filename: "Export/SwiftUIExporter.swift"
+    visual:
+      type: "terminal"
+      content: "Exporting ButtonCard.swift... Done"
+---
+
+# NeuralCanvas
+
+Where sketches become software.

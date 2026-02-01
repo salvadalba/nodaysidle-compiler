@@ -1,0 +1,165 @@
+---
+title: "Sentinel Health"
+description: "Privacy-first health monitoring for macOS that tracks wellness metrics without cloud dependencies. On-device ML analyzes patterns while keeping your health data completely local."
+category: "mobile-app"
+status: "completed"
+featured: true
+order: 5
+startDate: 2024-05-01
+endDate: 2024-10-15
+technologies:
+  - "Swift"
+  - "SwiftUI"
+  - "HealthKit"
+  - "Core ML"
+  - "Charts"
+links:
+  github: "https://github.com/salvadalba/nodaysidle-sentinelhealth"
+seoTitle: "Sentinel Health - Private Health Monitoring"
+seoDescription: "Privacy-first macOS health monitoring with on-device ML analytics and zero cloud dependencies"
+ogImage: "/og-sentinelhealth.svg"
+keywords:
+  - "macOS"
+  - "Swift"
+  - "health"
+  - "privacy"
+  - "ML"
+sections:
+  - id: "guardian"
+    title: "Your Health, Your Data"
+    content: "Health apps want your data in their cloud. Sentinel Health takes a different approach: every metric, every analysis, every insight stays on your Mac. Your health data is too personal to trust to anyone else."
+    codeBlock:
+      code: |
+        // Privacy-first health data store
+        struct HealthVault {
+            private let store: SecureLocalStore
+            private let encryption: AES256GCM
+
+            func save(_ metric: HealthMetric) async throws {
+                let encrypted = try encryption.seal(metric.encoded())
+                await store.write(encrypted, key: metric.id)
+                // No network. No cloud. No exceptions.
+            }
+
+            func query(_ range: DateInterval) async -> [HealthMetric] {
+                let encrypted = await store.read(range)
+                return encrypted.compactMap { try? decrypt($0) }
+            }
+        }
+      language: "swift"
+      filename: "Data/HealthVault.swift"
+    visual:
+      type: "terminal"
+      content: "Health data encrypted locally | Cloud sync: DISABLED"
+  - id: "insights"
+    title: "Intelligent Pattern Detection"
+    content: "On-device machine learning spots patterns you might miss. Sleep affecting your heart rate variability? Stress correlating with activity levels? Sentinel Health surfaces insights while keeping the analysis completely local."
+    codeBlock:
+      code: |
+        // Pattern detection with local ML
+        class InsightEngine {
+            private let correlationModel: MLModel
+            private let anomalyDetector: AnomalyDetector
+
+            func analyzePatterns(_ data: HealthData) async -> [Insight] {
+                // Correlation analysis
+                let correlations = await findCorrelations(
+                    sleep: data.sleep,
+                    hrv: data.heartRateVariability,
+                    activity: data.activity,
+                    stress: data.stressIndicators
+                )
+
+                // Anomaly detection
+                let anomalies = anomalyDetector.detect(data.recentMetrics)
+
+                return correlations.map { Insight.correlation($0) }
+                     + anomalies.map { Insight.anomaly($0) }
+            }
+        }
+      language: "swift"
+      filename: "Intelligence/InsightEngine.swift"
+    visual:
+      type: "diagram"
+      content: "Health Pattern Analysis Dashboard"
+    revealElements:
+      - id: "correlations"
+        animation: "slide-up"
+        delay: 150
+  - id: "visualization"
+    title: "Beautiful Data Stories"
+    content: "Swift Charts renders your health journey in stunning visualizations. See trends over time, compare metrics side-by-side, and understand your body's rhythms through interactive, native macOS charts."
+    codeBlock:
+      code: |
+        // Native Swift Charts visualization
+        struct HealthTrendChart: View {
+            let data: [HealthDataPoint]
+            @State private var selectedPoint: HealthDataPoint?
+
+            var body: some View {
+                Chart(data) { point in
+                    LineMark(
+                        x: .value("Date", point.date),
+                        y: .value("Value", point.value)
+                    )
+                    .foregroundStyle(gradient)
+                    .interpolationMethod(.catmullRom)
+
+                    if let selected = selectedPoint {
+                        RuleMark(x: .value("Selected", selected.date))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .chartOverlay { proxy in
+                    interactionOverlay(proxy: proxy)
+                }
+            }
+        }
+      language: "swift"
+      filename: "Views/HealthTrendChart.swift"
+    visual:
+      type: "ui"
+      content: "Interactive Health Trend Visualization"
+  - id: "integration"
+    title: "HealthKit Bridge"
+    content: "Seamlessly sync with Apple Health while maintaining privacy boundaries. Pull data from your iPhone and Apple Watch, analyze it locally on your Mac, and never send a single byte to external servers."
+    codeBlock:
+      code: |
+        // HealthKit integration with privacy controls
+        class HealthKitBridge {
+            private let healthStore = HKHealthStore()
+
+            func requestAuthorization() async throws {
+                let types: Set<HKSampleType> = [
+                    .heartRate, .stepCount, .sleepAnalysis,
+                    .heartRateVariabilitySDNN, .activeEnergyBurned
+                ]
+
+                try await healthStore.requestAuthorization(
+                    toShare: [],  // Never write back
+                    read: types
+                )
+            }
+
+            func sync() async -> HealthData {
+                // Read-only access, local processing
+                async let heart = fetchHeartData()
+                async let sleep = fetchSleepData()
+                async let activity = fetchActivityData()
+
+                return await HealthData(
+                    heart: heart, sleep: sleep, activity: activity
+                )
+            }
+        }
+      language: "swift"
+      filename: "Integration/HealthKitBridge.swift"
+    visual:
+      type: "code"
+      content: "toShare: [] // Never write back - read only"
+      language: "swift"
+---
+
+# Sentinel Health
+
+Guarding your wellness, locally.
