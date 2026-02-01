@@ -140,12 +140,16 @@ export const sectionChanged: Readable<boolean> = derived(
 );
 
 // Derived store for typing animation progress
+// Scale progress so typing completes at 70% scroll through section
 export const typingProgress: Readable<number> = derived(
   scrollProgress,
   ($scrollProgress) => {
     if ($scrollProgress.reducedMotion) {
       return 1; // Show all text instantly when reduced motion is preferred
     }
-    return $scrollProgress.progress;
+    // Scale progress: 0-0.7 scroll maps to 0-1 typing progress
+    // This ensures typing completes before leaving the section
+    const scaled = Math.min(1, $scrollProgress.progress / 0.7);
+    return scaled;
   }
 );

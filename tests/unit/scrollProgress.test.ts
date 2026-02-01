@@ -129,8 +129,9 @@ describe('derived stores', () => {
   });
 
   describe('typingProgress', () => {
-    it('should return scroll progress when reducedMotion is false', () => {
-      scrollProgress.setProgress(0.5);
+    it('should return scaled scroll progress when reducedMotion is false', () => {
+      // Progress is scaled: 0-0.7 scroll maps to 0-1 typing
+      scrollProgress.setProgress(0.35); // 0.35 / 0.7 = 0.5
       expect(get(typingProgress)).toBe(0.5);
     });
 
